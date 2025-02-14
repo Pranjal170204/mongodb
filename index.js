@@ -56,8 +56,25 @@ app.route("/api/users").post(async (req,res)=>{
  
 })
 .get(async (req,res)=>{
-    const allusers=User.find({});
+    const allusers=await User.find({});
+    res.status(200).json({usersss:allusers})
 })
+
+
+app.route('/api/users/:id').get(async (req,res)=>{
+    // const user_id=parseInt(req.params.id);
+    const userId=await User.findById( req.params.id)
+   
+    
+    
+       
+
+})
+.patch(async (req,res)=>{
+    const userId=await User
+})
+
+
 
  
 
