@@ -1,83 +1,32 @@
 const express=require('express')
 const app=express();
-const mongoose=require('mongoose');
+
+const userRouter=require('./routes/user')
+const {connectDB}=require('./connection');
+
 const PORT=8000;
 app.use(express.urlencoded({extended:false}))
+app.use(express.json())
 
 //connection
-mongoose.connect('mongodb://127.0.0.1:27017/martian1').then(()=>{
-    console.log("MongoDB connected")
-})
-.catch(e=>{
-    console.log("error:",e);
-})
+connectDB('mongodb://127.0.0.1:27017/martian1');
+
+
 //Define Schema
-const userSchema=new mongoose.Schema({
-    first_name:{
-        type: String,
-        required: true,
-    },
-
-    last_name:{
-        type: String,
-        required: false
-    },
-
-    email:{
-        type: String,
-        required: true,
-        unique: true
-    },
-    job_title:{
-        type: String,
-    },
-    gender:{
-        type: String
-    }
-},{timestamps:true})
+// in models Folder 
 
 //Make Model
-const User=mongoose.model("user",userSchema) //model name-user
+// in models Folder 
 
-//routes
-app.route("/api/users").post(async (req,res)=>{
-    const body=req.body;
-    const user = await User.create({
-        first_name: body.first_name, // ✅ Match schema field names
-        last_name: body.last_name,
-        email: body.email,
-        gender: body.gender,
-        job_title: body.job_title
-    });
+//routes 
 
-    return res.status(201).json({msg:"User created successfully",
-        user_created:user
-    })
- 
-})
-.get(async (req,res)=>{
-    const allusers=await User.find({});
-    res.status(200).json({usersss:allusers})
-})
+app.use("/user",userRouter);
 
-
-app.route('/api/users/:id').get(async (req,res)=>{
-    // const user_id=parseInt(req.params.id);
-    const userId=await User.findById( req.params.id)
-   
-    
-    
-       
-
-})
-.patch(async (req,res)=>{
-    const userId=await User
-})
 
 
 
  
-
+ 
 
 
 
