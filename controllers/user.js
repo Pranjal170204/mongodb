@@ -26,11 +26,13 @@ async function createUser(req,res){
 }
 
 async function getUserById(req,res){
+    try{
     const userId=await User.findById( req.params.id)
-    if(!userId){
-        res.status(404).send("user not found");
-    }
+    
     res.status(200).json({user: `${userId.id} - ${userId.first_name} ${userId.last_name} - ${userId.email} `})
+    }catch{res.status(404).send("user not found");}
+    
+    
 }
 
 async function updateUserById(req,res){
@@ -46,8 +48,14 @@ async function updateUserById(req,res){
 }
 
 async function deleteUserById(req,res){
-    const user=await User.findByIdAndDelete(req.params.id)
-    res.send("User Deleted")
+    
+    try{const user=await User.findByIdAndDelete(req.params.id)
+        res.send("User Deleted")
+    }
+    catch{
+
+        res.send("user doesnt exist")
+    }
 }
 
 module.exports={

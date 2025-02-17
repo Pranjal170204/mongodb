@@ -9,7 +9,9 @@ app.use(express.urlencoded({extended:false}))
 app.use(express.json())
 
 //connection
-connectDB('mongodb://127.0.0.1:27017/martian1');
+connectDB('mongodb://127.0.0.1:27017/martian1').then(()=>{
+    console.log("MongoDb connected!!")
+});
 
 
 //Define Schema
